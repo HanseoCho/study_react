@@ -2,6 +2,8 @@ import React, { useState,useCallback } from "react";
 import AppLayout from "../components/appLayout";
 import Head from "next/head";
 import {Button, Checkbox, Form} from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import {signupAction} from "../reducers/user";
 
 // ant design 과도한 최적화
 // 일반 컴포넌트를 강제로 memo를 사용해서 퓨어컴포넌트처럼 사용가능하다.
@@ -30,6 +32,7 @@ const Signup = () => {
     const [term, setTerm] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [termError, setTermError] = useState(false);
+    const dispatch = useDispatch();
 
     const onSubmit = useCallback((e) => {
 
@@ -39,6 +42,13 @@ const Signup = () => {
         if (!term) {
             return setTermError(true);
         }
+
+        dispatch(signupAction({
+            id,
+            password,
+            nick,
+        }));
+
         console.log({id, nick, password, passwordCheck, term});
 
     }, [password, passwordCheck, term]);
